@@ -4,6 +4,17 @@ const tours = JSON.parse(
 	fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`),
 );
 
+exports.checkID = (req, res, next, val) => {
+	if (req.params.id * 1 > tours.length) {
+    // we have to have this return, to make sure the next() is not ran
+		return res.status(404).json({
+			status: "fail",
+			message: "Invaild ID",
+		});
+	}
+	next();
+};
+
 // this function is usually called the route handler
 exports.getAllTours = (req, res) => {
 	res.status(200).json({
@@ -23,13 +34,6 @@ exports.getTour = (req, res) => {
 	// 	}
 	// });
 	const tour = tours.find(t => t.id === id);
-
-	if (!tour) {
-		return res.status(404).json({
-			status: "fail",
-			message: "Invaild ID",
-		});
-	}
 
 	res.status(200).json({
 		status: "success",
