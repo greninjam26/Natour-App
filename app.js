@@ -10,6 +10,7 @@ app.use(express.json());
 
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
 
+// get requests for all the tours
 app.get(
 	"/api/v1/tours",
 	// this function is usually called the route handler
@@ -22,6 +23,37 @@ app.get(
 	},
 );
 
+// get request for only one tour
+app.get(
+	"/api/v1/tours/:id",
+	// this function is usually called the route handler
+	(req, res) => {
+		console.log(req.params.id * 1);
+		const id = req.params.id * 1;
+
+		// if the arrow function have a {} we need to have return
+		// const tour = tours.find(t => {
+		// 	if (t.id === req.params.id * 1) {
+		// 		return t;
+		// 	}
+		// });
+		const tour = tours.find(t => t.id === id);
+
+		if (!tour) {
+			return res.status(404).json({
+				status: "fail",
+				message: "Invaild ID",
+			});
+		}
+
+		res.status(200).json({
+			status: "success",
+			data: { tour },
+		});
+	},
+);
+
+// post request for adding new tours
 app.post("/api/v1/tours", (req, res) => {
 	const newId = tours[tours.length - 1].id + 1;
 	const newTour = Object.assign({ id: newId }, req.body);
