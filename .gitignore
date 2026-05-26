@@ -141,3 +141,10 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# postman
+postman
+.postman
+
+# fake data
+dev-data/data/tours-simple.json
