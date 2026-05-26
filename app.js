@@ -69,6 +69,9 @@ app.post("/api/v1/tours", (req, res) => {
 	);
 });
 
+// patch requests
+// app.patch("api/v1/tours/:id", (req, res) => {});
+
 const port = 3000;
 // start a server
 app.listen(port, () => {
