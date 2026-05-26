@@ -1,0 +1,22 @@
+{
+	"name": "natour-app",
+	"version": "1.0.0",
+	"description": "",
+	"main": "app.js",
+	"scripts": {
+		"start": "nodemon app.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/greninjam26/Natour-App.git"
+	},
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/greninjam26/Natour-App/issues"
+	},
+	"homepage": "https://github.com/greninjam26/Natour-App#readme",
+	"dependencies": {
+		"express": "^4.22.2"
+	}
+}
