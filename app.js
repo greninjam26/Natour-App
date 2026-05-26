@@ -10,51 +10,41 @@ app.use(express.json());
 
 const tours = JSON.parse(fs.readFileSync(`${__dirname}/dev-data/data/tours-simple.json`));
 
-// get requests for all the tours
-app.get(
-	"/api/v1/tours",
-	// this function is usually called the route handler
-	(req, res) => {
-		res.status(200).json({
-			status: "success",
-			result: tours.length,
-			data: { tours },
+// this function is usually called the route handler
+const getAllTours = (req, res) => {
+	res.status(200).json({
+		status: "success",
+		result: tours.length,
+		data: { tours },
+	});
+};
+
+const getTour = (req, res) => {
+	console.log(req.params.id * 1);
+	const id = req.params.id * 1;
+
+	// if the arrow function have a {} we need to have return
+	// const tour = tours.find(t => {
+	// 	if (t.id === req.params.id * 1) {
+	// 		return t;
+	// 	}
+	// });
+	const tour = tours.find(t => t.id === id);
+
+	if (!tour) {
+		return res.status(404).json({
+			status: "fail",
+			message: "Invaild ID",
 		});
-	},
-);
+	}
 
-// get request for only one tour
-app.get(
-	"/api/v1/tours/:id",
-	// this function is usually called the route handler
-	(req, res) => {
-		console.log(req.params.id * 1);
-		const id = req.params.id * 1;
+	res.status(200).json({
+		status: "success",
+		data: { tour },
+	});
+};
 
-		// if the arrow function have a {} we need to have return
-		// const tour = tours.find(t => {
-		// 	if (t.id === req.params.id * 1) {
-		// 		return t;
-		// 	}
-		// });
-		const tour = tours.find(t => t.id === id);
-
-		if (!tour) {
-			return res.status(404).json({
-				status: "fail",
-				message: "Invaild ID",
-			});
-		}
-
-		res.status(200).json({
-			status: "success",
-			data: { tour },
-		});
-	},
-);
-
-// post request for adding new tours
-app.post("/api/v1/tours", (req, res) => {
+const createTour = (req, res) => {
 	const newId = tours[tours.length - 1].id + 1;
 	const newTour = Object.assign({ id: newId }, req.body);
 
@@ -67,10 +57,24 @@ app.post("/api/v1/tours", (req, res) => {
 			res.status(201).json({ status: "success", data: { tour: newTour } });
 		},
 	);
-});
+};
 
-// patch requests
-// app.patch("api/v1/tours/:id", (req, res) => {});
+const updateTour = (req, res) => {};
+const deleteTour = (req, res) => {};
+
+// // get requests for all the tours
+// app.get("/api/v1/tours", getAllTours);
+// // post request for adding new tours
+// app.post("/api/v1/tours", createTour);
+// // get request for only one tour
+// app.get("/api/v1/tours/:id", getTour);
+// // patch requests for updating tours
+// app.patch("api/v1/tours/:id", updateTour);
+// // delete request for deleting tours
+// app.delete("api/v1/tours/:id", deleteTour);
+
+app.route("/api/v1/tours").get(getAllTours).post(createTour);
+app.route("/api/v1/tours/:id").get(getTour).patch(updateTour).delete(deleteTour);
 
 const port = 3000;
 // start a server
