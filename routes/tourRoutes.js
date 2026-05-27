@@ -15,7 +15,10 @@ router.param("id", tourController.checkID);
 // app.patch("api/v1/tours/:id", updateTour);
 // // delete request for deleting tours
 // app.delete("api/v1/tours/:id", deleteTour);
-router.route("/").get(tourController.getAllTours).post(tourController.createTour);
+router
+	.route("/")
+	.get(tourController.getAllTours)
+	.post(tourController.checkBody, tourController.createTour);
 router
 	.route("/:id")
 	.get(tourController.getTour)

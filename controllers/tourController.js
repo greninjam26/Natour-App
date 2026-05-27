@@ -6,10 +6,20 @@ const tours = JSON.parse(
 
 exports.checkID = (req, res, next, val) => {
 	if (req.params.id * 1 > tours.length) {
-    // we have to have this return, to make sure the next() is not ran
+		// we have to have this return, to make sure the next() is not ran
 		return res.status(404).json({
 			status: "fail",
 			message: "Invaild ID",
+		});
+	}
+	next();
+};
+
+exports.checkBody = (req, res, next) => {
+	if (!req.body.name || !req.body.price) {
+		return res.status(400).json({
+			status: "fail",
+			message: "Missing name or price",
 		});
 	}
 	next();
