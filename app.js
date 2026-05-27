@@ -7,8 +7,10 @@ const userRouter = require("./routes/userRoutes");
 // the standard, obtain methods from express, stored in app
 const app = express();
 
-// display the request information in the console
-app.use(morgan("dev"));
+if (process.env.NODE_ENV === "development") {
+	// display the request information in the console
+	app.use(morgan("dev"));
+}
 // express.json is the middleware
 // it will modify the incoming request data
 app.use(express.json());

@@ -4,7 +4,8 @@
 	"description": "",
 	"main": "app.js",
 	"scripts": {
-		"start": "nodemon server.js"
+		"start:dev": "nodemon server.js",
+		"start:prod": "NODE_ENV=production nodemon server.js"
 	},
 	"repository": {
 		"type": "git",
@@ -17,6 +18,7 @@
 	},
 	"homepage": "https://github.com/greninjam26/Natour-App#readme",
 	"dependencies": {
+		"dotenv": "^17.4.2",
 		"express": "^4.22.2",
 		"morgan": "^1.10.1"
 	}
