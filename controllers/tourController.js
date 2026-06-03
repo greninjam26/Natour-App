@@ -17,29 +17,32 @@ const Tour = require("../models/tourModel");
 // };
 
 // this function is usually called the route handler
-exports.getAllTours = (req, res) => {
-  res.status(200).json({
-    status: "success",
-    // result: tours.length,
-    // data: { tours },
-  });
+exports.getAllTours = async (req, res) => {
+  try {
+    // this will return allthe document in the collection
+    const tours = await Tour.find();
+
+    res.status(200).json({
+      status: "success",
+      result: tours.length,
+      data: { tours },
+    });
+  } catch (err) {
+    res.status(404).json({ status: "fail", message: err });
+  }
 };
 
-exports.getTour = (req, res) => {
-  const id = req.params.id * 1;
+exports.getTour = async (req, res) => {
+  try {
+    const tour = await Tour.findById(req.params.id);
 
-  // if the arrow function have a {} we need to have return
-  // const tour = tours.find(t => {
-  // 	if (t.id === req.params.id * 1) {
-  // 		return t;
-  // 	}
-  // });
-  // const tour = tours.find((t) => t.id === id);
-
-  res.status(200).json({
-    status: "success",
-    // data: { tour },
-  });
+    res.status(200).json({
+      status: "success",
+      data: { tour },
+    });
+  } catch (err) {
+    res.status(404).json({ status: "fail", message: err });
+  }
 };
 
 exports.createTour = async (req, res) => {
