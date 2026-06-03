@@ -149,3 +149,4 @@ postman
 
 # fake data
 dev-data/data/tours-simple.json
+import-dev-data.js
