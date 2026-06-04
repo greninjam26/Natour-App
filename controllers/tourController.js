@@ -22,7 +22,7 @@ exports.getAllTours = async (req, res) => {
     // BUILD QUARY
     // 1. filtering
     const queryObj = { ...req.query };
-    const excludedFields = ["page", "sort", "limit", "field"];
+    const excludedFields = ["page", "sort", "limit", "fields"];
     excludedFields.forEach((el) => delete queryObj[el]);
 
     // 2. advanced filtering
@@ -38,6 +38,14 @@ exports.getAllTours = async (req, res) => {
       query = query.sort(sortBy);
     } else {
       query = query.sort("-createAt");
+    }
+
+    // 4. field limiting
+    if (req.query.fields) {
+      const fields = req.query.fields.split(",").join(" ");
+      query = query.select(fields);
+    } else {
+      query = query.select("-__v");
     }
 
     const tours = await query;
