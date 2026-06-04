@@ -19,8 +19,18 @@ const Tour = require("../models/tourModel");
 // this function is usually called the route handler
 exports.getAllTours = async (req, res) => {
   try {
-    // this will return allthe document in the collection
-    const tours = await Tour.find();
+    // BUILD QUARY
+    // 1. filtering
+    const queryObj = { ...req.query };
+    const excludedFields = ["page", "sort", "limit", "field"];
+    excludedFields.forEach((el) => delete queryObj[el]);
+
+    // 2. advanced filtering
+    let queryStr = JSON.stringify(queryObj);
+    queryStr = queryStr.replace(/\b(gte|gt|lte|lt)\b/g, (match) => `$${match}`);
+
+    // this will return all the document in the collection with filter
+    const tours = await Tour.find(JSON.parse(queryStr));
 
     res.status(200).json({
       status: "success",
